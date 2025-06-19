@@ -17,28 +17,39 @@ public class Bicicleteria {
   public Bicicleteria(float ganancias, int cantidadDeVentas, ArrayList<Bicicleta> bicicletas) {
     this.ganancias = ganancias;
     this.cantidadDeVentas = cantidadDeVentas;
-    this.bicicletas = bicicletas;
+    this.bicicletas = (bicicletas != null) ? bicicletas : new ArrayList<>();
+  }
+
+  //getters
+  public float getGanancias() {
+    return ganancias;
+  }
+
+  public int getCantidadDeVentas() {
+    return cantidadDeVentas;
   }
 
   //metodos
   public void agregarBicicleta(Bicicleta b) {
     if (bicicletas.size() < 1000) {
       bicicletas.add(b);
-      log.info("Bicicleta agrgada al inventario" + b.getNroSerie());
+      log.info("Bicicleta agrgada al inventario" + " " + b.getNroSerie());
     } else {
       log.info("Ya no se pueden agregar mas bicicletas");
     }
   }
 
-  public void venderBicicleta(String nroSerie) throws BicicletaNoDisponible {
-    Bicicleta encontrada = null;
+  private Bicicleta bucarBicicletaPorSerie(String nroSerie) {
     for (Bicicleta b : bicicletas) {
       if (b.getNroSerie().equalsIgnoreCase(nroSerie)) {
-        encontrada = b;
-        break;
+        return b;
       }
     }
+    return null;
+  }
 
+  public void venderBicicleta(String nroSerie) throws BicicletaNoDisponible {
+    Bicicleta encontrada = bucarBicicletaPorSerie(nroSerie);
     if (encontrada != null) {
       float precioFinal = encontrada.calcularPrecioFinal();
       ganancias += precioFinal;
