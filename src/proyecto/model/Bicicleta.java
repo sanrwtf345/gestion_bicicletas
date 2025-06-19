@@ -1,6 +1,6 @@
 package proyecto.model;
 
-public abstract class Bicicleta {
+public abstract class Bicicleta implements Vendible {
 
   private String nroSerie;
   private String modelo;

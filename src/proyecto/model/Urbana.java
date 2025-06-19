@@ -9,4 +9,10 @@ public class Urbana extends Bicicleta {
   public String getTipo() {
     return "urbana";
   }
+
+  @Override
+  public float calcularPrecioFinal() {
+    // 15% de descuento si es anterior a 2023
+    return (getAnio() < 2023) ? getPrecio() * 0.85f : getPrecio();
+  }
 }

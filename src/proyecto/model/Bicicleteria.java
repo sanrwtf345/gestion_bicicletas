@@ -32,8 +32,22 @@ public class Bicicleteria {
 
   public void venderBicicleta(String nroSerie) throws BicicletaNoDisponible {
     Bicicleta encontrada = null;
+    for (Bicicleta b : bicicletas) {
+      if (b.getNroSerie().equalsIgnoreCase(nroSerie)) {
+        encontrada = b;
+        break;
+      }
+    }
 
-
+    if (encontrada != null) {
+      float precioFinal = encontrada.calcularPrecioFinal();
+      ganancias += precioFinal;
+      cantidadDeVentas++;
+      bicicletas.remove(encontrada);
+      log.info("Venta realizada. Precio final: $" + precioFinal);
+    } else {
+      throw new BicicletaNoDisponible("La bicicleta con nro de serie " + nroSerie + " no está en stock.");
+    }
   }
 
   public void mostrarBicicletasDisponibles() {
@@ -41,7 +55,7 @@ public class Bicicleteria {
       log.info("No hay bicicletas disponibles");
     } else {
       for (Bicicleta b : bicicletas) {
-        log.info(b.getTipo() + b.getModelo() + b.getAnio() + b.getPrecio());//cambiar por precio final cuando se implemente
+        log.info(b.getTipo() + " - " + b.getModelo() + " - " + b.getAnio() + " - $" + b.calcularPrecioFinal());
       }
     }
   }
